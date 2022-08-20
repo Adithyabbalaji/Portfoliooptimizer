@@ -1,20 +1,41 @@
-let globalChart = undefined;
+let globalChart,gmin,gmax=undefined;
+
 const submit = async (e) => {
-  if (globalChart != undefined) {
-    globalChart.destroy();
-    globalChart = undefined;
-  }
-  document.getElementById("loading").style.display = "block";
-  document.getElementById("submit").disabled = true;
+    if (globalChart != undefined) {
+      globalChart.destroy();
+      globalChart=undefined;
+    }
+    if (gmin != undefined) {
+      gmin.destroy();
+      gmin=undefined;
+    }
+    if (gmax != undefined) {
+      gmax.destroy();
+      gmax=undefined;
+    }
+
+  const stock = document.getElementById("stock").value;
 
   const minRiskDiv = document.getElementById("min-risk");
   minRiskDiv.innerHTML = '<p class="risktitle">MIN RISK </p>';
 
   const maxReturnDiv = document.getElementById("max-return");
   maxReturnDiv.innerHTML = '<p class="risktitle">MAX RETURN</p>';
+  
+  if(stock.split(" ").length<2){
+    document.getElementById("error").innerHTML="Minimum two input required";
+    minRiskDiv.innerHTML = "";
+    maxReturnDiv.innerHTML="";
+  }
+  else{
+    document.getElementById("error").innerHTML="";
+  
+  document.getElementById("loading").style.display = "block";
+  document.getElementById("submit").disabled = true;
+
+
 
   e.preventDefault();
-  const stock = document.getElementById("stock").value;
   const response = await fetch('http://127.0.0.1:5000/api/portfolio?tickers=' + stock, {
     method: 'GET',
   });
@@ -91,12 +112,12 @@ const submit = async (e) => {
       legend: { display: false },
     },
   });
-  globalChart = new Chart("mypie", {
+  gmin = new Chart("mypie", {
     type: "pie",
     data: {
       labels: x,
       datasets: [{
-        label: 'My First Dataset',
+        label: 'Min Risk Piechart',
         data: y,
         backgroundColor: colors,
 
@@ -106,12 +127,12 @@ const submit = async (e) => {
       legend: { display: false }
     }
   });
-  globalChart = new Chart("mypiem", {
+  gmax = new Chart("mypiem", {
     type: "pie",
     data: {
       labels: xm,
       datasets: [{
-        label: 'My First Dataset',
+        label: 'Max Return Piechart',
         data: ym,
         backgroundColor: colors,
 
@@ -123,6 +144,8 @@ const submit = async (e) => {
   });
 
 };
+  }
+  
 document.getElementById("submit").addEventListener("click", submit);
 
 const getTable = (data) => {

@@ -31,8 +31,9 @@
     <div class="container">
       <h1 class="row">PORTFOLIO OPTIMIZER</h1>
       <form class="row">
-        <input id="stock" class="col" />
-        <button id="submit" class="col">SUBMIT</button>
+        <input id="stock" class="col" required/>
+        <span id="error"></span>
+        <button class="button-12" id="submit" type="button">SUBMIT</button>
       </form>
       <div class="row" id="loading" style="display: none">LOADING</div>
       <div class="row">
