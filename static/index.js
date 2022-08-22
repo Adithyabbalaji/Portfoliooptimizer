@@ -21,7 +21,7 @@ const submit = async (e) => {
   document.getElementById("submit").disabled = true;
 
   const response = await fetch(
-    "http://127.0.0.1:5000/api/portfolio?tickers=" + stock,
+    "http://portfolioapi-portfolioapi.linuxapacgtc40.conygre.com/api/portfolio?tickers=" + stock,
     {
       method: "GET",
     }
@@ -142,7 +142,7 @@ const submit = async (e) => {
       },
     })
   );
-  document.getElementById("leftchartname").innerHTML = 'MINIMUM RISK PORTFOLIO'
+  document.getElementById("leftchartname").innerHTML = "MINIMUM RISK PORTFOLIO"
   document.getElementById("rightchartname").innerHTML = 'MAXIMUM RETURN PORTFOLIO'
   const k=document.getElementById("allgraph")
   k.innerHTML = ""
@@ -153,12 +153,12 @@ const submit = async (e) => {
 };
 document.getElementById("submit").addEventListener("click", submit);
 
-const getTable = (data,money=1) => {
+const getTable = (data) => {
   let table = document.createElement("table");
   table.className = "table table-bordered";
   for (let [key, value] of Object.entries(data)) {
     let k = Object.keys(value)[0];
-    let v = parseFloat(value[k]).toFixed(6)*money;
+    let v = parseFloat(value[k]).toFixed(6);
 
     table.innerHTML += `<tr> <td class="key_name">${key}</td> <td>${v}</td></tr>`;
   }
